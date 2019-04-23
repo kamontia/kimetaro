@@ -1,1 +1,1 @@
-web: python kimetaro.py
+worker: python kimetaro.py
