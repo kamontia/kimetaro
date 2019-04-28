@@ -24,6 +24,9 @@ async def on_message(message):
         reply = 'よし、決めたろうやないか'
         await message.channel.send(reply)
 
+    if message.content.startswith('/hey'):
+        reply = 'おーきに'
+        await message.channel.send(reply)
 
 def main():
     # Set form configuration file
