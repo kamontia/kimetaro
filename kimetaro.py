@@ -1,6 +1,10 @@
+# coding: utf-8
 import discord
 from configparser import ConfigParser
 import os
+from collections import defaultdict
+import random
+
 
 # Make client instance
 client = discord.Client()
