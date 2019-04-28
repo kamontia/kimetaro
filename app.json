@@ -1,14 +1,12 @@
 {
-  "addons": [
-
-  ],
-  "buildpacks": [
-    {
-      "url": "heroku/python"
-    }
-  ],
+  "buildpacks": [{
+    "url": "heroku/python"
+  }],
   "env": {
     "ACCESSTOKEN": {
+      "required": true
+    },
+    "PAPERTRAIL_API_TOKEN": {
       "required": true
     }
   },
@@ -17,8 +15,10 @@
       "quantity": 1
     }
   },
+  "addons": [
+    "papertrail"
+  ],
   "name": "kimetaro",
-  "scripts": {
-  },
+  "scripts": {},
   "stack": "heroku-18"
 }
