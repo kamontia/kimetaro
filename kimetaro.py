@@ -9,8 +9,8 @@ client = discord.Client()
 @client.event
 async def on_ready():
     print('Logged in')
-    print(client.user.id)
-    print(client.user.name)
+    print("client.user.id: " + client.user.id)
+    print("client.user.name: " + client.user.name)
 
 # Processing when some messages are received
 @client.event
@@ -27,6 +27,11 @@ async def on_message(message):
     if message.content.startswith('/hey'):
         reply = 'おーきに'
         await message.channel.send(reply)
+
+    if message.content.startswith('/choice'):
+        reply = 'よーうし、決めるで〜'
+        await message.channel.send(reply)
+
 
 def main():
     # Set form configuration file
