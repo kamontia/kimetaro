@@ -24,7 +24,7 @@ async def on_message(message):
         return
 
     if message.content.startswith('/kimetaro'):
-        reply = 'よし、決めたろうやないか'
+        reply = 'よし、開発したろうやないか1'
         await message.channel.send(reply)
 
     if message.content.startswith('/hey'):
