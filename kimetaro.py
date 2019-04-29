@@ -77,8 +77,9 @@ def main():
     try:
         with open("./config.ini") as k:
             parser.read_file(k)
-    except:
-        pass
+    except FileNotFoundError as e:
+        print(e)
+        raise
 
     global ACCESSTOKEN, LIST, MAX_ITEM
     ACCESSTOKEN = parser["TOKEN"]["ACCESSTOKEN"]
