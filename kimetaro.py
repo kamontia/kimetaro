@@ -4,12 +4,13 @@ from configparser import ConfigParser
 import os
 from collections import defaultdict
 import random
-
+import pysnooper
 
 # Make client instance
 client = discord.Client()
 
 # Notification processing when bot stars
+@pysnooper.snoop()
 @client.event
 async def on_ready():
     print('Logged in')
@@ -18,6 +19,7 @@ async def on_ready():
 
 
 # Processing when some messages are received
+@pysnooper.snoop()
 @client.event
 async def on_message(message):
     if message.author == client.user:
@@ -52,25 +54,25 @@ async def on_message(message):
         reply = r'`/choice` でワイが1つ決めたるで'
         await message.channel.send(reply)
 
-
+@pysnooper.snoop()
 def add(message):
     item = message.content
     item = item.split(' ')[1]
     LIST[message.channel.id].append(item)
     return item
 
-
+@pysnooper.snoop()
 def choice(message):
     reply = random.choice(LIST.get(message.channel.id))
     return reply
 
-
+@pysnooper.snoop()
 def showList(message):
     print(message.channel.id)
     reply = LIST.get(message.channel.id)
     return reply
 
-
+@pysnooper.snoop()
 def main():
     # Set form configuration file
     parser = ConfigParser(default_section="TOKEN")
