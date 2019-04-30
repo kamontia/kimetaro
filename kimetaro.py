@@ -54,6 +54,7 @@ async def on_message(message):
         reply = r'`/choice` でワイが1つ決めたるで'
         await message.channel.send(reply)
 
+
 @pysnooper.snoop()
 def add(message):
     item = message.content
@@ -78,8 +79,6 @@ def showList(message):
 @pysnooper.snoop()
 def main():
     global ACCESSTOKEN, LIST, MAX_ITEM
-    ACCESSTOKEN = parser["TOKEN"]["ACCESSTOKEN"]
-    print(ACCESSTOKEN)
 
     # Set from environment value if it is defined
     if os.environ.get('ACCESSTOKEN'):
