@@ -54,23 +54,27 @@ async def on_message(message):
         reply = r'`/choice` でワイが1つ決めたるで'
         await message.channel.send(reply)
 
+
 @pysnooper.snoop()
 def add(message):
     item = message.content
-    item = item.split(' ')[1]
+    item = item.split(' ')[1:]
     LIST[message.channel.id].append(item)
     return item
+
 
 @pysnooper.snoop()
 def choice(message):
     reply = random.choice(LIST.get(message.channel.id))
     return reply
 
+
 @pysnooper.snoop()
 def showList(message):
     print(message.channel.id)
     reply = LIST.get(message.channel.id)
     return reply
+
 
 @pysnooper.snoop()
 def main():
