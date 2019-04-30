@@ -87,9 +87,6 @@ def main():
     MAX_ITEM = 5
     # LIST = [[] for i in range(MAX_ITEM)]
     LIST = defaultdict(list)
-    LIST[499200204239667202].append("決めたろうを使う")
-    LIST[499200204239667202].append("決めたろうを消す")
-    print(LIST)
 
 
 if __name__ == "__init__":
