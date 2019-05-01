@@ -47,3 +47,23 @@ Kimetaro is the BOT which selects one of lists(Discord/Slack)
 !bye
 決め太郎「ほな」
 ```
+
+## For developper
+`kimetaro` loads the discord of access token from environment values.
+You debug or run `kimetaro` on your environment, necessary to set your access token as environment values.
+I recommend you to use `direnv`, which set environment values automatically.
+
+1. Please modify `.envrc.sample` as following
+```bash
+$ vim .envrc.sample
+[TOKEN]
+ACCESSTOKEN=YOUR_DISCORD_ACCESS_TOKEN
+```
+2. Rename `.envrc.sample` to `.envrc`.
+3. Run kimetaro
+```bash
+$ python3 kimetaro.py
+```
+
+Ref [direnv](https://github.com/direnv/direnv)
+
