@@ -58,7 +58,7 @@ async def on_message(message):
 @pysnooper.snoop()
 def add(message):
     item = message.content
-    item = item.split(' ')[1]
+    item = item.split(' ')[1:]
     LIST[message.channel.id].append(item)
     return item
 
