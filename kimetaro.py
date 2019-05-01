@@ -1,9 +1,10 @@
 # coding: utf-8
-import discord
-from configparser import ConfigParser
 import os
-from collections import defaultdict
 import random
+from collections import defaultdict
+from configparser import ConfigParser
+
+import discord
 import pysnooper
 
 # Make client instance
