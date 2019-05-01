@@ -102,7 +102,7 @@ def main():
         ACCESSTOKEN = os.environ.get('ACCESSTOKEN')
 
     if os.environ.get('MAX_ITEMS'):
-        MAX_ITEMS = os.environ.get('MAX_ITEMS')
+        MAX_ITEMS = int(os.environ.get('MAX_ITEMS'))
     else:
         MAX_ITEMS = 5  # Default
 
