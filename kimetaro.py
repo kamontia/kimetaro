@@ -91,14 +91,14 @@ def remove(message):
 
 @pysnooper.snoop()
 def main():
-    global ACCESSTOKEN, LIST, MAX_ITEM
+    global ACCESSTOKEN, LIST, MAX_ITEMS
 
     # Set from environment value if it is defined
     if os.environ.get('ACCESSTOKEN'):
         ACCESSTOKEN = os.environ.get('ACCESSTOKEN')
 
-    MAX_ITEM = 5
-    # LIST = [[] for i in range(MAX_ITEM)]
+    MAX_ITEMS = 5
+    # LIST = [[] for i in range(MAX_ITEMS)]
     LIST = defaultdict(list)
 
 
