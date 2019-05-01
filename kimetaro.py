@@ -97,7 +97,11 @@ def main():
     if os.environ.get('ACCESSTOKEN'):
         ACCESSTOKEN = os.environ.get('ACCESSTOKEN')
 
-    MAX_ITEMS = 5
+    if os.environ.get('MAX_ITEMS'):
+        MAX_ITEMS = os.environ.get('MAX_ITEMS')
+    else:
+        MAX_ITEMS = 5  # Default
+
     # LIST = [[] for i in range(MAX_ITEMS)]
     LIST = defaultdict(list)
 
