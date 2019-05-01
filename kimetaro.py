@@ -55,6 +55,13 @@ async def on_message(message):
         reply = r'`/choice` でワイが1つ決めたるで'
         await message.channel.send(reply)
 
+    if message.content.startswith('/remove'):
+        remove(message)
+        reply = '登録されたリストは削除しといたで'
+        await message.channel.send(reply)
+        reply = 'また利用してな'
+        await message.channel.send(reply)
+
 
 @pysnooper.snoop()
 def add(message):
@@ -75,6 +82,11 @@ def showList(message):
     print(message.channel.id)
     reply = LIST.get(message.channel.id)
     return reply
+
+
+@pysnooper.snoop()
+def remove(message):
+    LIST[message.channel.id].clear()
 
 
 @pysnooper.snoop()
