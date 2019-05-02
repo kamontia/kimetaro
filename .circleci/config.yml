@@ -11,6 +11,9 @@ jobs:
       - run:
           name: Check by pycodestyle
           command: pycodestyle *.py
+      - run:
+          name: Run unittest
+          command: python -m unittest
   review:
     docker:
       - image: buildpack-deps:trusty
