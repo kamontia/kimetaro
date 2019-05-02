@@ -13,8 +13,11 @@ jobs:
           command: pycodestyle *.py
   review:
     docker:
-      - image: heroku:18
+      - image: buildpack-deps:trusty
     steps:
+      - run:
+          name: Install heroku cli
+          command: curl https://cli-assets.heroku.com/install.sh | sh
       - run:
           name: Update ACCESS TOKEN
           command: |
