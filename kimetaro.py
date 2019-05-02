@@ -66,7 +66,7 @@ async def on_message(message):
 
     if message.content.startswith('/list' + COMMAND_SUFFIX):
         if len(LIST[message.channel.id]) == 0:
-            reply = r'リストはからっぽや！`/add "タスク"`でタスクを追加できるで'
+            reply = r'残念やったな！リストはからっぽや！`/add "タスク"`でタスクを追加できるで'
             await message.channel.send(reply)
         else:
             reply = 'リストにあるのはこれやで\n'
