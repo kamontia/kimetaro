@@ -10,6 +10,23 @@ import pysnooper
 
 # Value initialization
 COMMAND_SUFFIX = ''
+'''
+This pattern matches keywords enclosed in double quotes or single quotes.
+
+ex)
+ /add "A" 'B'
+ -> A and B are added in list
+
+ This regular expression pattern is not complete and
+ will require maintenance in the future.
+ In the current, if `kimetaro` encounters the delimiter inside,
+ it will break unintentionally.
+
+ ex)
+  /add "abc's"
+ -> The keyword of 'abc' and 's' are devided and added into list.
+
+'''
 PATTERN = r"(?<=\"|')(?!,).*?(?=\"|')"
 COMPILED_PATTERN = re.compile(PATTERN)
 
