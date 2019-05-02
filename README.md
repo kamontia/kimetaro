@@ -67,3 +67,11 @@ $ python3 kimetaro.py
 
 Ref [direnv](https://github.com/direnv/direnv)
 
+## Limitation
+This regular expression pattern is not complete and will require maintenance in the future.
+In the current, if `kimetaro` encounters the delimiter inside, it will break unintentionally.
+```bash
+ ex)
+  /add "abc's"
+ -> The keyword of 'abc' and 's' are devided and added into list.
+```
