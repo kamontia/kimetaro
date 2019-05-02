@@ -11,6 +11,20 @@ jobs:
       - run:
           name: Check by pycodestyle
           command: pycodestyle *.py
+  review:
+    docker:
+      - image: buildpack-deps:trusty
+    steps:
+      - run:
+          name: Install heroku cli
+          command: curl https://cli-assets.heroku.com/install.sh | sh
+      - run:
+          name: Update ACCESS TOKEN
+          command: |
+            PR_NUM=${CIRCLE_PULL_REQUEST##*/}
+            TOKEN_NUM=$(( $PR_NUM % 3 + 1 ))
+            TOKEN_VAR=ACCESSTOKEN_DEV_${TOKEN_NUM}
+            heroku config:set -a kimetaro-pr-${PR_NUM} ACCESSTOKEN=${!TOKEN_VAR} > /dev/null
   deploy:
     docker:
       - image: buildpack-deps:trusty
@@ -26,6 +40,10 @@ workflows:
   build-deploy:
     jobs:
       - test
+      - review:
+          filters:
+            branches:
+              ignore: master
       - deploy:
           filters:
             branches:
