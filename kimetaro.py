@@ -65,12 +65,16 @@ async def on_message(message):
         await message.channel.send(reply)
 
     if message.content.startswith('/list' + COMMAND_SUFFIX):
-        reply = 'リストにあるのはこれやで\n'
-        await message.channel.send(reply)
-        reply = showList(message)
-        await message.channel.send(reply)
-        reply = r'`/choice` でワイが1つ決めたるで'
-        await message.channel.send(reply)
+        if len(LIST[message.channel.id]) == 0:
+            reply = r'リストはからっぽや！`/add "タスク"`でタスクを追加できるで'
+            await message.channel.send(reply)
+        else:
+            reply = 'リストにあるのはこれやで\n'
+            await message.channel.send(reply)
+            reply = showList(message)
+            await message.channel.send(reply)
+            reply = r'`/choice` でワイが1つ決めたるで'
+            await message.channel.send(reply)
 
     if message.content.startswith('/remove' + COMMAND_SUFFIX):
         remove(message)
