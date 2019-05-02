@@ -8,7 +8,7 @@ import discord
 import pysnooper
 
 # Value initialization
-CALLCOMMAND_SUFFIX = ''
+COMMAND_SUFFIX = ''
 
 # Make client instance
 client = discord.Client()
@@ -20,16 +20,16 @@ async def on_ready():
     print('Logged in')
     print(client.user.id)
     print(client.user.name)
-    # Set CALLCOMMAND_SUFFIX
-    CALLCOMMAND_LIST = {
+    # Set COMMAND_SUFFIX
+    COMMAND_SUFFIX = {
         'kimetaro': '',
         'kimetaro-dev1': '-dev1',
         'kimetaro-dev2': '-dev2',
         'kimetaro-dev3': '-dev3'
     }
-    if client.user.name in CALLCOMMAND_LIST:
-        CALLCOMMAND_SUFFIX = CALLCOMMAND_LIST[client.user.name]
-        print("CALLCOMMAND_SUFFIX::" + CALLCOMMAND_SUFFIX)
+    if client.user.name in COMMAND_SUFFIX:
+        COMMAND_SUFFIX = COMMAND_SUFFIX[client.user.name]
+        print("COMMAND_SUFFIX::" + COMMAND_SUFFIX)
 
 
 # Processing when some messages are received
@@ -39,15 +39,15 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content.startswith('/kimetaro' + CALLCOMMAND_SUFFIX):
+    if message.content.startswith('/kimetaro' + COMMAND_SUFFIX):
         reply = 'よし、決めたろうやないか'
         await message.channel.send(reply)
 
-    if message.content.startswith('/hey' + CALLCOMMAND_SUFFIX):
+    if message.content.startswith('/hey' + COMMAND_SUFFIX):
         reply = 'おーきに'
         await message.channel.send(reply)
 
-    if message.content.startswith('/choice' + CALLCOMMAND_SUFFIX):
+    if message.content.startswith('/choice' + COMMAND_SUFFIX):
         reply = 'よーうし、決めたるで〜'
         await message.channel.send(reply)
         reply = 'むむっ、これや！\n'
@@ -64,7 +64,7 @@ async def on_message(message):
             reply = add_item + ' を追加したで'
         await message.channel.send(reply)
 
-    if message.content.startswith('/list' + CALLCOMMAND_SUFFIX):
+    if message.content.startswith('/list' + COMMAND_SUFFIX):
         reply = 'リストにあるのはこれやで\n'
         await message.channel.send(reply)
         reply = showList(message)
@@ -72,7 +72,7 @@ async def on_message(message):
         reply = r'`/choice` でワイが1つ決めたるで'
         await message.channel.send(reply)
 
-    if message.content.startswith('/remove' + CALLCOMMAND_SUFFIX):
+    if message.content.startswith('/remove' + COMMAND_SUFFIX):
         remove(message)
         reply = '登録されたリストは削除しといたで'
         await message.channel.send(reply)
