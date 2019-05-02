@@ -11,23 +11,13 @@ import pysnooper
 # Value initialization
 COMMAND_SUFFIX = ''
 '''
-This pattern matches keywords enclosed in double quotes or single quotes.
+This pattern matches keywords enclosed in double quotes.
 
 ex)
- /add "A" 'B'
+ /add "A" "B"
  -> A and B are added in list
-
- This regular expression pattern is not complete and
- will require maintenance in the future.
- In the current, if `kimetaro` encounters the delimiter inside,
- it will break unintentionally.
-
- ex)
-  /add "abc's"
- -> The keyword of 'abc' and 's' are devided and added into list.
-
 '''
-PATTERN = r"(?<=\"|')(?!,).*?(?=\"|')"
+PATTERN = r"(?<=\").*?(?=\")"
 COMPILED_PATTERN = re.compile(PATTERN)
 
 # Make client instance
@@ -109,15 +99,18 @@ async def on_message(message):
 @pysnooper.snoop()
 def add(message):
     item = message.content
+
     item = item.split(' ')[1:]
-    item = ','.join(item)
+    item = ' '.join(item)
     # Pick up matched words
     item_list = re.findall(COMPILED_PATTERN, item)
+    added_list = []
     for v in item_list:
         # Not to add into list if the length of words is zero
-        if len(v) != 0:
+        if len(v) != 0 and None == re.match('^\s*$', v):
             LIST[message.channel.id].append(v)
-    return item_list
+            added_list.append(v)
+    return added_list
 
 
 @pysnooper.snoop()
