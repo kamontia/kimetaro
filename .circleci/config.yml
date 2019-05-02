@@ -11,6 +11,14 @@ jobs:
       - run:
           name: Check by pycodestyle
           command: pycodestyle *.py
+  review:
+    docker:
+      - image: heroku:18
+    steps:
+      - run:
+          name: Update ACCESS TOKEN
+          command: |
+            heroku config:set -a kimetaro-pr-23 ACCESSTOKEN="${ACCESSTOKEN_DEV_1}"
   deploy:
     docker:
       - image: buildpack-deps:trusty
@@ -26,6 +34,10 @@ workflows:
   build-deploy:
     jobs:
       - test
+      - review:
+          filters:
+            branches:
+              ignore: master
       - deploy:
           filters:
             branches:
