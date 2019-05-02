@@ -21,7 +21,10 @@ jobs:
       - run:
           name: Update ACCESS TOKEN
           command: |
-            heroku config:set -a kimetaro-pr-23 ACCESSTOKEN="${ACCESSTOKEN_DEV_1}"
+            PR_NUM=${CIRCLE_PULL_REQUEST##*/}
+            TOKEN_NUM=$(( $PR_NUM % 3 + 1 ))
+            TOKEN_VAR=ACCESSTOKEN_DEV_${TOKEN_NUM}
+            heroku config:set -a kimetaro-pr-${PR_NUM} ACCESSTOKEN='$'$(eval echo $TOKEN_VAR)
   deploy:
     docker:
       - image: buildpack-deps:trusty
