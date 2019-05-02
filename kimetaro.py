@@ -152,6 +152,11 @@ def remove(message):
 
 
 @pysnooper.snoop()
+async def send_reply(message, reply):
+    await message.channel.send(reply)
+
+
+@pysnooper.snoop()
 def main():
     global ACCESSTOKEN, LIST, MAX_ITEMS
 
