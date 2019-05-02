@@ -43,8 +43,12 @@ async def on_message(message):
         await message.channel.send(reply)
 
     if message.content.startswith('/add'):
-        add_item = add(message)
-        reply = add_item + ' を追加したで'
+        if len(LIST[message.channel.id]) >= MAX_ITEMS:
+            msg = 'もうリストがいっぱいや！最大 {} 個までしか追加できんで'
+            reply = msg.format(MAX_ITEMS)
+        else:
+            add_item = add(message)
+            reply = add_item + ' を追加したで'
         await message.channel.send(reply)
 
     if message.content.startswith('/list'):
@@ -67,8 +71,8 @@ async def on_message(message):
 def add(message):
     item = message.content
     item = item.split(' ')[1:]
-    LIST[message.channel.id].append(item)
-    return item
+    LIST[message.channel.id].append(item[0])
+    return item[0]
 
 
 @pysnooper.snoop()
@@ -91,14 +95,18 @@ def remove(message):
 
 @pysnooper.snoop()
 def main():
-    global ACCESSTOKEN, LIST, MAX_ITEM
+    global ACCESSTOKEN, LIST, MAX_ITEMS
 
     # Set from environment value if it is defined
     if os.environ.get('ACCESSTOKEN'):
         ACCESSTOKEN = os.environ.get('ACCESSTOKEN')
 
-    MAX_ITEM = 5
-    # LIST = [[] for i in range(MAX_ITEM)]
+    if os.environ.get('MAX_ITEMS'):
+        MAX_ITEMS = int(os.environ.get('MAX_ITEMS'))
+    else:
+        MAX_ITEMS = 5  # Default
+
+    # LIST = [[] for i in range(MAX_ITEMS)]
     LIST = defaultdict(list)
 
 
