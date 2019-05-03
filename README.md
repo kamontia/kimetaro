@@ -14,7 +14,7 @@ Kimetaro is the BOT which selects one of lists(Discord/Slack)
 #### Call
 
 ```bash
-!hey
+/hey
 決め太郎「おーきに」
 ```
 
@@ -31,7 +31,7 @@ NOTE:
 #### List(Not implemented)
 
 ```bash
-!list
+/list
  1. planA
  2. planB
 ```
@@ -39,7 +39,7 @@ NOTE:
 #### Kimetaro(Not implemented)
 
 ```bash
-!choice
+/choice
  ～面白い演出
  決め太郎「決めたで！ planBや」
 ```
@@ -47,7 +47,7 @@ NOTE:
 #### Bye(Not implemented)
 
 ```bash
-!bye
+/bye
 決め太郎「ほな」
 ```
 
