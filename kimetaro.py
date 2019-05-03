@@ -107,7 +107,7 @@ def add(message):
     added_list = []
     for v in item_list:
         # Not to add into list if the length of words is zero
-        if len(v) != 0 and None == re.match('^\s*$', v):
+        if len(v) != 0 and re.match(r'^\s*$', v) is not None:
             LIST[message.channel.id].append(v)
             added_list.append(v)
     return added_list
