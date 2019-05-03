@@ -62,7 +62,8 @@ async def on_message(message):
 
     if message.content.startswith('/add'):
         if len(LIST[message.channel.id]) >= MAX_ITEMS:
-            send_reply(message, 'もうリストがいっぱいや！最大 {} 個までしか追加できんで'.format(MAX_ITEMS))
+            send_reply(message,
+                       'もうリストがいっぱいや！最大 {} 個までしか追加できんで'.format(MAX_ITEMS))
         else:
             add_item = add(message)
             for v in add_item:
