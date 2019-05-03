@@ -98,6 +98,11 @@ async def on_message(message):
 
 @pysnooper.snoop()
 def add(message):
+    '''
+     This method is expected receiving argument as below:
+     `/add string1 string2`     : String enclosed in nothing sign
+     `/add "string1" "string2"  : String not enclosed in double quotes
+    '''
     item = message.content
 
     item = item.split(' ')[1:]
@@ -109,10 +114,16 @@ def add(message):
     item_list = re.findall(COMPILED_PATTERN, item_toSring)
 
     if not item_list:
+        '''
+        Expected pattern:`/add string1 string2`
+        '''
         for v in item:
             LIST[message.channel.id].append(v)
             added_list.append(v)
     else:
+        '''
+        Expected pattern:`/add "string1" "string2"`
+        '''
         for v in item_list:
             # Not to add into list if the length of words is zero
             if len(v) != 0 and re.match(r'^\s*$', v) is None:

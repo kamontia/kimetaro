@@ -18,12 +18,15 @@ Kimetaro is the BOT which selects one of lists(Discord/Slack)
 決め太郎「おーきに」
 ```
 
-#### Register(Not implemented)
+#### Register
 
 ```bash
-!add planA
-!add planB
+/add planA planB
+/add "planA" "planB"
 ```
+NOTE:
+`"` (Double quotation) and no quotation can not be mixed
+`'` (Single quotation) not accepted
 
 #### List(Not implemented)
 
