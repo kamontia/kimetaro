@@ -49,9 +49,6 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content.startswith('/kimetaro' + COMMAND_SUFFIX):
-        await send_reply(message, 'よし、決めたろうやないか')
-
     if message.content.startswith('/hey' + COMMAND_SUFFIX):
         await send_reply(message, 'おーきに')
 
