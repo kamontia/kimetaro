@@ -122,6 +122,7 @@ def add(message):
 @pysnooper.snoop()
 def choice(message):
     reply = random.choice(LIST.get(message.channel.id))
+    reply = ':confetti_ball: ' + reply + ' :confetti_ball: '
     return reply
 
 
