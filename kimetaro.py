@@ -101,15 +101,24 @@ def add(message):
     item = message.content
 
     item = item.split(' ')[1:]
-    item = ' '.join(item)
-    # Pick up matched words
-    item_list = re.findall(COMPILED_PATTERN, item)
+
+    # Convert to string type because of using regular expression
+    item_toSring = ' '.join(item)
     added_list = []
-    for v in item_list:
-        # Not to add into list if the length of words is zero
-        if len(v) != 0 and re.match(r'^\s*$', v) is not None:
+    # Pick up matched words
+    item_list = re.findall(COMPILED_PATTERN, item_toSring)
+
+    if not item_list:
+        for v in item:
             LIST[message.channel.id].append(v)
             added_list.append(v)
+    else:
+        for v in item_list:
+            # Not to add into list if the length of words is zero
+            if len(v) != 0 and re.match(r'^\s*$', v) is None:
+                LIST[message.channel.id].append(v)
+                added_list.append(v)
+
     return added_list
 
 
