@@ -55,7 +55,7 @@ async def on_message(message):
     if message.content.startswith('/hey' + COMMAND_SUFFIX):
         await send_reply(message, 'おーきに')
 
-    if message.content.startswith('/choice' + COMMAND_SUFFIX):
+    if message.content.startswith('/kimetaro' + COMMAND_SUFFIX):
         await send_reply(message, 'よーうし、決めたるで〜')
         await send_reply(message, 'むむっ、これや！\n')
         await send_reply(message, choice(message))
