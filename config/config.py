@@ -22,7 +22,9 @@ def parse():
         config.read("config/config.ini")
     except FileNotFoundError as e:
         print(e)
-    global HEY_MESSAGE1, KIMETARO_MESSAGE1, KIMETARO_MESSAGE2, ADD_ERROR1, LIST_MESSAGE1, LIST_ERROR1, REMOVE_MESSAGE1, REMOVE_MESSAGE2
+    global HEY_MESSAGE1, KIMETARO_MESSAGE1, KIMETARO_MESSAGE2, \
+        ADD_ERROR1, LIST_MESSAGE1, LIST_ERROR1, \
+        REMOVE_MESSAGE1, REMOVE_MESSAGE2
     HEY_MESSAGE1 = [e for e in config.get('hey', 'message1').split('\n')]
     KIMETARO_MESSAGE1 = [e for e in config.get(
         'kimetaro', 'message1').split('\n')]
