@@ -3,10 +3,11 @@ import os
 import random
 import re
 from collections import defaultdict
-from configparser import ConfigParser
 
 import discord
 import pysnooper
+
+import config.config as Parser
 
 # Value initialization
 COMMAND_SUFFIX = ''
@@ -54,20 +55,20 @@ async def on_message(message):
         await message.channel.send(reply)
 
     if message.content.startswith('/hey' + COMMAND_SUFFIX):
-        reply = 'おーきに'
+        reply = random.choice(Parser.HEY_MESSAGE1)[1:-1]
         await message.channel.send(reply)
 
-    if message.content.startswith('/choice' + COMMAND_SUFFIX):
-        reply = 'よーうし、決めたるで〜'
+    if message.content.startswith('/kimetaro' + COMMAND_SUFFIX):
+        reply = random.choice(Parser.KIMETARO_MESSAGE1)[1:-1]
         await message.channel.send(reply)
-        reply = 'むむっ、これや！\n'
+        reply = random.choice(Parser.KIMETARO_MESSAGE2)[1:-1]
         await message.channel.send(reply)
         reply = choice(message)
         await message.channel.send(reply)
 
     if message.content.startswith('/add'):
         if len(LIST[message.channel.id]) >= MAX_ITEMS:
-            msg = 'もうリストがいっぱいや！最大 {} 個までしか追加できんで'
+            msg = random.choice(Parser.ADD_ERROR1)[1:-1]
             reply = msg.format(MAX_ITEMS)
         else:
             add_item = add(message)
@@ -78,10 +79,10 @@ async def on_message(message):
 
     if message.content.startswith('/list' + COMMAND_SUFFIX):
         if len(LIST[message.channel.id]) == 0:
-            reply = r'残念やったな！リストはからっぽや！`/add "タスク"`でタスクを追加できるで'
+            reply = random.choice(Parser.LIST_ERROR1)[1:-1]
             await message.channel.send(reply)
         else:
-            reply = 'リストにあるのはこれやで\n'
+            reply = random.choice(Parser.LIST_MESSAGE1)[1:-1]
             await message.channel.send(reply)
             reply = showList(message)
             await message.channel.send(reply)
@@ -90,9 +91,9 @@ async def on_message(message):
 
     if message.content.startswith('/remove' + COMMAND_SUFFIX):
         remove(message)
-        reply = '登録されたリストは削除しといたで'
+        reply = random.choice(Parser.REMOVE_MESSAGE1)[1:-1]
         await message.channel.send(reply)
-        reply = 'また利用してな'
+        reply = random.choice(Parser.REMOVE_MESSAGE2)[1:-1]
         await message.channel.send(reply)
 
 
@@ -154,6 +155,7 @@ def remove(message):
 @pysnooper.snoop()
 def main():
     global ACCESSTOKEN, LIST, MAX_ITEMS
+    Parser.parse()
 
     # Set from environment value if it is defined
     if os.environ.get('ACCESSTOKEN'):
