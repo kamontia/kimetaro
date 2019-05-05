@@ -50,38 +50,38 @@ async def on_message(message):
         return
 
     if message.content.startswith('/kimetaro' + COMMAND_SUFFIX):
-        send_reply(message, 'よし、決めたろうやないか')
+        await send_reply(message, 'よし、決めたろうやないか')
 
     if message.content.startswith('/hey' + COMMAND_SUFFIX):
-        send_reply(message, 'おーきに')
+        await send_reply(message, 'おーきに')
 
     if message.content.startswith('/choice' + COMMAND_SUFFIX):
-        send_reply(message, 'よーうし、決めたるで〜')
-        send_reply(message, 'むむっ、これや！\n')
-        send_reply(message, choice(message))
+        await send_reply(message, 'よーうし、決めたるで〜')
+        await send_reply(message, 'むむっ、これや！\n')
+        await send_reply(message, choice(message))
 
     if message.content.startswith('/add'):
         if len(LIST[message.channel.id]) >= MAX_ITEMS:
-            send_reply(message,
+            await send_reply(message,
                        'もうリストがいっぱいや！最大 {} 個までしか追加できんで'.format(MAX_ITEMS))
         else:
             add_item = add(message)
             for v in add_item:
                 if len(v) != 0:
-                    send_reply(message, v + ' を追加したで')
+                    await send_reply(message, v + ' を追加したで')
 
     if message.content.startswith('/list' + COMMAND_SUFFIX):
         if len(LIST[message.channel.id]) == 0:
-            send_reply(message, r'残念やったな！リストはからっぽや！`/add "タスク"`でタスクを追加できるで')
+            await send_reply(message, r'残念やったな！リストはからっぽや！`/add "タスク"`でタスクを追加できるで')
         else:
-            send_reply(message, 'リストにあるのはこれやで\n')
-            send_reply(message, showList(message))
-            send_reply(message, r'`/choice` でワイが1つ決めたるで')
+            await send_reply(message, 'リストにあるのはこれやで\n')
+            await send_reply(message, showList(message))
+            await send_reply(message, r'`/choice` でワイが1つ決めたるで')
 
     if message.content.startswith('/remove' + COMMAND_SUFFIX):
         remove(message)
-        send_reply(message, '登録されたリストは削除しといたで')
-        send_reply(message, 'また利用してな')
+        await send_reply(message, '登録されたリストは削除しといたで')
+        await send_reply(message, 'また利用してな')
 
 
 @pysnooper.snoop()
