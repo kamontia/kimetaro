@@ -50,50 +50,39 @@ async def on_message(message):
         return
 
     if message.content.startswith('/kimetaro' + COMMAND_SUFFIX):
-        reply = 'よし、決めたろうやないか'
-        await message.channel.send(reply)
+        await send_reply(message, 'よし、決めたろうやないか')
 
     if message.content.startswith('/hey' + COMMAND_SUFFIX):
-        reply = 'おーきに'
-        await message.channel.send(reply)
+        await send_reply(message, 'おーきに')
 
     if message.content.startswith('/choice' + COMMAND_SUFFIX):
-        reply = 'よーうし、決めたるで〜'
-        await message.channel.send(reply)
-        reply = 'むむっ、これや！\n'
-        await message.channel.send(reply)
-        reply = choice(message)
-        await message.channel.send(reply)
+        await send_reply(message, 'よーうし、決めたるで〜')
+        await send_reply(message, 'むむっ、これや！\n')
+        await send_reply(message, choice(message))
 
     if message.content.startswith('/add'):
         if len(LIST[message.channel.id]) >= MAX_ITEMS:
-            msg = 'もうリストがいっぱいや！最大 {} 個までしか追加できんで'
-            reply = msg.format(MAX_ITEMS)
+            await send_reply(message,
+                             'もうリストがいっぱいや！最大 {} 個までしか追加できんで'.format(MAX_ITEMS))
         else:
             add_item = add(message)
             for v in add_item:
                 if len(v) != 0:
-                    reply = v + ' を追加したで'
-                    await message.channel.send(reply)
+                    await send_reply(message, v + ' を追加したで')
 
     if message.content.startswith('/list' + COMMAND_SUFFIX):
         if len(LIST[message.channel.id]) == 0:
-            reply = r'残念やったな！リストはからっぽや！`/add "タスク"`でタスクを追加できるで'
-            await message.channel.send(reply)
+            await send_reply(message, r'残念やったな！リストはからっぽや！\
+                             `/add "タスク"`でタスクを追加できるで')
         else:
-            reply = 'リストにあるのはこれやで\n'
-            await message.channel.send(reply)
-            reply = showList(message)
-            await message.channel.send(reply)
-            reply = r'`/choice` でワイが1つ決めたるで'
-            await message.channel.send(reply)
+            await send_reply(message, 'リストにあるのはこれやで\n')
+            await send_reply(message, showList(message))
+            await send_reply(message, r'`/choice` でワイが1つ決めたるで')
 
     if message.content.startswith('/remove' + COMMAND_SUFFIX):
         remove(message)
-        reply = '登録されたリストは削除しといたで'
-        await message.channel.send(reply)
-        reply = 'また利用してな'
-        await message.channel.send(reply)
+        await send_reply(message, '登録されたリストは削除しといたで')
+        await send_reply(message, 'また利用してな')
 
 
 @pysnooper.snoop()
@@ -149,6 +138,11 @@ def showList(message):
 @pysnooper.snoop()
 def remove(message):
     LIST[message.channel.id].clear()
+
+
+@pysnooper.snoop()
+async def send_reply(message, reply):
+    await message.channel.send(reply)
 
 
 @pysnooper.snoop()
