@@ -27,6 +27,7 @@ jobs:
                 PR_NUM=${CIRCLE_PULL_REQUEST##*/}
               fi
               echo $PR_NUM
+              sleep 3
             done
             TOKEN_NUM=$(( $PR_NUM % 3 + 1 ))
             TOKEN_VAR=ACCESSTOKEN_DEV_${TOKEN_NUM}
