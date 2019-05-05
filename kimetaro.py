@@ -7,7 +7,16 @@ from collections import defaultdict
 import discord
 import pysnooper
 
-from config.config import ConfigParser
+from config.config import MessageParser
+
+
+class Kimetaro(object):
+    def __init__(self):
+        self.parser = MessageParser()
+
+
+# Global definition(Workaround)
+kimetaro = Kimetaro()
 
 # Value initialization
 COMMAND_SUFFIX = ''
@@ -55,20 +64,24 @@ async def on_message(message):
         await message.channel.send(reply)
 
     if message.content.startswith('/hey' + COMMAND_SUFFIX):
-        reply = random.choice(Parser.HEY_MESSAGE1)[1:-1]
+        reply = random.choice(
+            kimetaro.parser.getParameter("HEY_MESSAGE1")[0])[1:-1]
         await message.channel.send(reply)
 
     if message.content.startswith('/kimetaro' + COMMAND_SUFFIX):
-        reply = random.choice(Parser.KIMETARO_MESSAGE1)[1:-1]
+        reply = random.choice(
+            kimetaro.parser.getParameter("KIMETARO_MESSAGE1")[0])[1:-1]
         await message.channel.send(reply)
-        reply = random.choice(Parser.KIMETARO_MESSAGE2)[1:-1]
+        reply = random.choice(
+            kimetaro.parser.getParameter("KIMETARO_MESSAGE2")[0])[1:-1]
         await message.channel.send(reply)
         reply = choice(message)
         await message.channel.send(reply)
 
     if message.content.startswith('/add'):
         if len(LIST[message.channel.id]) >= MAX_ITEMS:
-            msg = random.choice(Parser.ADD_ERROR1)[1:-1]
+            msg = random.choice(
+                kimetaro.parser.getParameter("error_message1")[0])[1:-1]
             reply = msg.format(MAX_ITEMS)
         else:
             add_item = add(message)
@@ -79,10 +92,12 @@ async def on_message(message):
 
     if message.content.startswith('/list' + COMMAND_SUFFIX):
         if len(LIST[message.channel.id]) == 0:
-            reply = random.choice(Parser.LIST_ERROR1)[1:-1]
+            reply = random.choice(
+                kimetaro.parser.getParameter("LIST_ERROR1")[0])[1:-1]
             await message.channel.send(reply)
         else:
-            reply = random.choice(Parser.LIST_MESSAGE1)[1:-1]
+            reply = random.choice(
+                kimetaro.parser.getParameter("LIST_MESSAGE1")[0])[1:-1]
             await message.channel.send(reply)
             reply = showList(message)
             await message.channel.send(reply)
@@ -91,9 +106,11 @@ async def on_message(message):
 
     if message.content.startswith('/remove' + COMMAND_SUFFIX):
         remove(message)
-        reply = random.choice(Parser.REMOVE_MESSAGE1)[1:-1]
+        reply = random.choice(
+            kimetaro.parser.getParameter("REMOVE_MESSAGE1")[0])[1:-1]
         await message.channel.send(reply)
-        reply = random.choice(Parser.REMOVE_MESSAGE2)[1:-1]
+        reply = random.choice(
+            kimetaro.parser.getParameter("REMOVE_MESSAGE2")[0])[1:-1]
         await message.channel.send(reply)
 
 
@@ -155,7 +172,9 @@ def remove(message):
 @pysnooper.snoop()
 def main():
     global ACCESSTOKEN, LIST, MAX_ITEMS
-    parser = ConfigParser()
+
+    kimetaro.parser.parse()
+    kimetaro.parser.display()
 
     # Set from environment value if it is defined
     if os.environ.get('ACCESSTOKEN'):

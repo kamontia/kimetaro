@@ -36,11 +36,9 @@ class MessageParser(object):
         self.setParameter("REMOVE_MESSAGE2", [e for e in config.get(
             'remove', 'message2').split('\n')])
 
-    # @property
     def getParameter(self, key):
         return self.Messages[key]
 
-    # @setParameter.setter
     def setParameter(self, key, value):
         self.Messages[key].append(value)
 
