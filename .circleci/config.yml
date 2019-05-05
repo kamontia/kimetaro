@@ -21,7 +21,13 @@ jobs:
       - run:
           name: Update ACCESS TOKEN
           command: |
-            PR_NUM=${CIRCLE_PULL_REQUEST##*/}
+            while true:
+            do
+              if [ -n "$PR_NUM" ]; then
+                PR_NUM=${CIRCLE_PULL_REQUEST##*/}
+              fi
+              echo $PR_NUM
+            done
             TOKEN_NUM=$(( $PR_NUM % 3 + 1 ))
             TOKEN_VAR=ACCESSTOKEN_DEV_${TOKEN_NUM}
             heroku config:set -a kimetaro-pr-${PR_NUM} ACCESSTOKEN=${!TOKEN_VAR} > /dev/null
