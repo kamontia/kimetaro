@@ -21,7 +21,7 @@ jobs:
       - run:
           name: Update ACCESS TOKEN
           command: |
-            while true:
+            while true
             do
               if [ -n "$PR_NUM" ]; then
                 PR_NUM=${CIRCLE_PULL_REQUEST##*/}
