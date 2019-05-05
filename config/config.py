@@ -1,49 +1,54 @@
 import configparser as ConfigParser
 import sys
 import os
+from collections import defaultdict
 
 import pysnooper
 
 
-HEY_MESSAGE1 = ''
-KIMETARO_MESSAGE1 = ''
-KIMETARO_MESSAGE2 = ''
-ADD_ERROR1 = ''
-LIST_MESSAGE1 = ''
-LIST_ERROR1 = ''
-REMOVE_MESSAGE1 = ''
-REMOVE_MESSAGE2 = ''
+class MessageParser(object):
 
+    def __init__(self):
+        self.Messages = defaultdict(list)
+        print(type(self.Messages))
 
-@pysnooper.snoop()
-def parse():
-    config = ConfigParser.ConfigParser()
-    try:
-        config.read("config/config.ini")
-    except FileNotFoundError as e:
-        print(e)
-    global HEY_MESSAGE1, KIMETARO_MESSAGE1, KIMETARO_MESSAGE2, \
-        ADD_ERROR1, LIST_MESSAGE1, LIST_ERROR1, \
-        REMOVE_MESSAGE1, REMOVE_MESSAGE2
-    HEY_MESSAGE1 = [e for e in config.get('hey', 'message1').split('\n')]
-    KIMETARO_MESSAGE1 = [e for e in config.get(
-        'kimetaro', 'message1').split('\n')]
-    KIMETARO_MESSAGE2 = [e for e in config.get(
-        'kimetaro', 'message2').split('\n')]
-    ADD_ERROR1 = [e for e in config.get(
-        'add', 'error_message1').split('\n')]
-    LIST_MESSAGE1 = [e for e in config.get('list', 'message1').split('\n')]
-    LIST_ERROR1 = [e for e in config.get('list', 'error_message1').split('\n')]
-    REMOVE_MESSAGE1 = [e for e in config.get('remove', 'message1').split('\n')]
-    REMOVE_MESSAGE2 = [e for e in config.get('remove', 'message2').split('\n')]
+    def parse(self):
+        config = ConfigParser.ConfigParser()
+        try:
+            config.read("config/config.ini")
+        except FileNotFoundError as e:
+            print(e)
 
+        self.setParameter("HEY_MESSAGE1",  [
+                          e for e in config.get('hey', 'message1').split('\n')])
+        self.setParameter("KIMETARO_MESSAGE1", [e for e in config.get(
+            'kimetaro', 'message1').split('\n')])
+        self.setParameter("KIMETARO_MESSAGE2", [e for e in config.get(
+            'kimetaro', 'message2').split('\n')])
+        self.setParameter("ADD_ERROR1", [e for e in config.get(
+            'add', 'error_message1').split('\n')])
+        self.setParameter("LIST_MESSAGE1", [
+                          e for e in config.get('list', 'message1').split('\n')])
+        self.setParameter("LIST_ERROR1", [e for e in config.get(
+            'list', 'error_message1').split('\n')])
+        self.setParameter("REMOVE_MESSAGE1", [e for e in config.get(
+            'remove', 'message1').split('\n')])
+        self.setParameter("REMOVE_MESSAGE2", [e for e in config.get(
+            'remove', 'message2').split('\n')])
 
-def display():
-    print("@@@ DISPLAY - HEY_MESSAGE1 - @@@")
-    for v in HEY_MESSAGE1:
-        print(v)
+    # @property
+    def getParameter(self, key):
+        return self.Messages[key]
+
+    # @setParameter.setter
+    def setParameter(self, key, value):
+        self.Messages[key].append(value)
+
+    def display(self):
+        print(self.Messages)
 
 
 if __name__ == '__main__':
-    parse()
-    display()
+    parser = MessageParser()
+    parser.parse()
+    parser.display()

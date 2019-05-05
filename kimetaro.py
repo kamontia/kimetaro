@@ -7,7 +7,7 @@ from collections import defaultdict
 import discord
 import pysnooper
 
-import config.config as Parser
+from config.config import ConfigParser
 
 # Value initialization
 COMMAND_SUFFIX = ''
@@ -155,7 +155,7 @@ def remove(message):
 @pysnooper.snoop()
 def main():
     global ACCESSTOKEN, LIST, MAX_ITEMS
-    Parser.parse()
+    parser = ConfigParser()
 
     # Set from environment value if it is defined
     if os.environ.get('ACCESSTOKEN'):
