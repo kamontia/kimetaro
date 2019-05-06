@@ -59,59 +59,44 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content.startswith('/kimetaro' + COMMAND_SUFFIX):
-        reply = 'よし、決めたろうやないか'
-        await message.channel.send(reply)
-
     if message.content.startswith('/hey' + COMMAND_SUFFIX):
-        reply = random.choice(
-            kimetaro.parser.getParameter("HEY_MESSAGE1")[0])[1:-1]
-        await message.channel.send(reply)
+        await send_reply(message, random.choice(
+            kimetaro.parser.getParameter("HEY_MESSAGE1")[0])[1:-1])
 
     if message.content.startswith('/kimetaro' + COMMAND_SUFFIX):
-        reply = random.choice(
-            kimetaro.parser.getParameter("KIMETARO_MESSAGE1")[0])[1:-1]
-        await message.channel.send(reply)
-        reply = random.choice(
-            kimetaro.parser.getParameter("KIMETARO_MESSAGE2")[0])[1:-1]
-        await message.channel.send(reply)
-        reply = choice(message)
-        await message.channel.send(reply)
+        await send_reply(message, random.choice(
+            kimetaro.parser.getParameter("KIMETARO_MESSAGE1")[0])[1:-1])
+        await send_reply(message, random.choice(
+            kimetaro.parser.getParameter("KIMETARO_MESSAGE2")[0])[1:-1])
+        await send_reply(message, choice(message))
 
     if message.content.startswith('/add'):
         if len(LIST[message.channel.id]) >= MAX_ITEMS:
-            msg = random.choice(
-                kimetaro.parser.getParameter("error_message1")[0])[1:-1]
-            reply = msg.format(MAX_ITEMS)
+            await send_reply(message, random.choice(
+                kimetaro.parser.getParameter("error_message1")[0])[1:-1].format(MAX_ITEMS))
         else:
             add_item = add(message)
             for v in add_item:
                 if len(v) != 0:
-                    reply = v + ' を追加したで'
-                    await message.channel.send(reply)
+                    await send_reply(message, v + ' を追加したで')
 
     if message.content.startswith('/list' + COMMAND_SUFFIX):
         if len(LIST[message.channel.id]) == 0:
-            reply = random.choice(
-                kimetaro.parser.getParameter("LIST_ERROR1")[0])[1:-1]
-            await message.channel.send(reply)
+            await send_reply(message, random.choice(
+                kimetaro.parser.getParameter("LIST_ERROR1")[0])[1:-1])
+
         else:
-            reply = random.choice(
-                kimetaro.parser.getParameter("LIST_MESSAGE1")[0])[1:-1]
-            await message.channel.send(reply)
-            reply = showList(message)
-            await message.channel.send(reply)
-            reply = r'`/choice` でワイが1つ決めたるで'
-            await message.channel.send(reply)
+            await send_reply(message, random.choice(
+                kimetaro.parser.getParameter("LIST_MESSAGE1")[0])[1:-1])
+            await send_reply(message, showList(message))
+            await send_reply(message, r'`/kimetaro` でワイが1つ決めたるで')
 
     if message.content.startswith('/remove' + COMMAND_SUFFIX):
         remove(message)
-        reply = random.choice(
-            kimetaro.parser.getParameter("REMOVE_MESSAGE1")[0])[1:-1]
-        await message.channel.send(reply)
-        reply = random.choice(
-            kimetaro.parser.getParameter("REMOVE_MESSAGE2")[0])[1:-1]
-        await message.channel.send(reply)
+        await send_reply(message, random.choice(
+            kimetaro.parser.getParameter("REMOVE_MESSAGE1")[0])[1:-1])
+        await send_reply(message, random.choice(
+            kimetaro.parser.getParameter("REMOVE_MESSAGE2")[0])[1:-1])
 
 
 @pysnooper.snoop()
@@ -154,6 +139,7 @@ def add(message):
 @pysnooper.snoop()
 def choice(message):
     reply = random.choice(LIST.get(message.channel.id))
+    reply = ':confetti_ball: ' + reply + ' :confetti_ball: '
     return reply
 
 
@@ -167,6 +153,11 @@ def showList(message):
 @pysnooper.snoop()
 def remove(message):
     LIST[message.channel.id].clear()
+
+
+@pysnooper.snoop()
+async def send_reply(message, reply):
+    await message.channel.send(reply)
 
 
 @pysnooper.snoop()
