@@ -3,10 +3,20 @@ import os
 import random
 import re
 from collections import defaultdict
-from configparser import ConfigParser
 
 import discord
 import pysnooper
+
+from config.config import MessageParser
+
+
+class Kimetaro(object):
+    def __init__(self):
+        self.parser = MessageParser()
+
+
+# Global definition(Workaround)
+kimetaro = Kimetaro()
 
 # Value initialization
 COMMAND_SUFFIX = ''
@@ -50,17 +60,22 @@ async def on_message(message):
         return
 
     if message.content.startswith('/hey' + COMMAND_SUFFIX):
-        await send_reply(message, 'おーきに')
+        await send_reply(message, random.choice(
+            kimetaro.parser.getParameter("HEY_MESSAGE1")[0])[1:-1])
 
     if message.content.startswith('/kimetaro' + COMMAND_SUFFIX):
-        await send_reply(message, 'よーうし、決めたるで〜')
-        await send_reply(message, 'むむっ、これや！\n')
+        await send_reply(message, random.choice(
+            kimetaro.parser.getParameter("KIMETARO_MESSAGE1")[0])[1:-1])
+        await send_reply(message, random.choice(
+            kimetaro.parser.getParameter("KIMETARO_MESSAGE2")[0])[1:-1])
         await send_reply(message, choice(message))
 
     if message.content.startswith('/add'):
         if len(LIST[message.channel.id]) >= MAX_ITEMS:
-            await send_reply(message,
-                             'もうリストがいっぱいや！最大 {} 個までしか追加できんで'.format(MAX_ITEMS))
+            reply = random.choice(
+                kimetaro.parser.getParameter("ADD_ERROR1")[0])[1:-1] \
+                .format(MAX_ITEMS)
+            await send_reply(message, reply)
         else:
             add_item = add(message)
             for v in add_item:
@@ -69,17 +84,21 @@ async def on_message(message):
 
     if message.content.startswith('/list' + COMMAND_SUFFIX):
         if len(LIST[message.channel.id]) == 0:
-            await send_reply(message, r'残念やったな！リストはからっぽや！\
-                             `/add "タスク"`でタスクを追加できるで')
+            await send_reply(message, random.choice(
+                kimetaro.parser.getParameter("LIST_ERROR1")[0])[1:-1])
+
         else:
-            await send_reply(message, 'リストにあるのはこれやで\n')
+            await send_reply(message, random.choice(
+                kimetaro.parser.getParameter("LIST_MESSAGE1")[0])[1:-1])
             await send_reply(message, showList(message))
             await send_reply(message, r'`/kimetaro` でワイが1つ決めたるで')
 
     if message.content.startswith('/remove' + COMMAND_SUFFIX):
         remove(message)
-        await send_reply(message, '登録されたリストは削除しといたで')
-        await send_reply(message, 'また利用してな')
+        await send_reply(message, random.choice(
+            kimetaro.parser.getParameter("REMOVE_MESSAGE1")[0])[1:-1])
+        await send_reply(message, random.choice(
+            kimetaro.parser.getParameter("REMOVE_MESSAGE2")[0])[1:-1])
 
 
 @pysnooper.snoop()
@@ -146,6 +165,9 @@ async def send_reply(message, reply):
 @pysnooper.snoop()
 def main():
     global ACCESSTOKEN, LIST, MAX_ITEMS
+
+    kimetaro.parser.parse()
+    kimetaro.parser.display()
 
     # Set from environment value if it is defined
     if os.environ.get('ACCESSTOKEN'):
