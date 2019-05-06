@@ -72,8 +72,10 @@ async def on_message(message):
 
     if message.content.startswith('/add'):
         if len(LIST[message.channel.id]) >= MAX_ITEMS:
-            await send_reply(message, random.choice(
-                kimetaro.parser.getParameter("error_message1")[0])[1:-1].format(MAX_ITEMS))
+            reply = random.choice(
+                kimetaro.parser.getParameter("ADD_ERROR1")[0])[1:-1] \
+                .format(MAX_ITEMS)
+            await send_reply(message, reply)
         else:
             add_item = add(message)
             for v in add_item:
