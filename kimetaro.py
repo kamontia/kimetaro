@@ -74,7 +74,7 @@ async def on_message(message):
         else:
             await send_reply(message, 'リストにあるのはこれやで\n')
             await send_reply(message, showList(message))
-            await send_reply(message, r'`/choice` でワイが1つ決めたるで')
+            await send_reply(message, r'`/kimetaro` でワイが1つ決めたるで')
 
     if message.content.startswith('/remove' + COMMAND_SUFFIX):
         remove(message)
