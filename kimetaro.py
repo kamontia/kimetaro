@@ -49,13 +49,10 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content.startswith('/kimetaro' + COMMAND_SUFFIX):
-        await send_reply(message, 'よし、決めたろうやないか')
-
     if message.content.startswith('/hey' + COMMAND_SUFFIX):
         await send_reply(message, 'おーきに')
 
-    if message.content.startswith('/choice' + COMMAND_SUFFIX):
+    if message.content.startswith('/kimetaro' + COMMAND_SUFFIX):
         await send_reply(message, 'よーうし、決めたるで〜')
         await send_reply(message, 'むむっ、これや！\n')
         await send_reply(message, choice(message))
@@ -125,6 +122,7 @@ def add(message):
 @pysnooper.snoop()
 def choice(message):
     reply = random.choice(LIST.get(message.channel.id))
+    reply = ':confetti_ball: ' + reply + ' :confetti_ball: '
     return reply
 
 
