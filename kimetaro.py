@@ -70,7 +70,7 @@ async def on_message(message):
             kimetaro.parser.getParameter("KIMETARO_MESSAGE1")[0])[1:-1])
         await send_reply(message, random.choice(
             kimetaro.parser.getParameter("KIMETARO_MESSAGE2")[0])[1:-1])
-        await send_reply(message, choice(message))
+        await send_reply(message, doKimetaro(message))
 
     if message.content.startswith('/add'):
         if len(LIST[message.channel.id]) >= MAX_ITEMS:
@@ -144,7 +144,7 @@ def add(message):
 
 
 @pysnooper.snoop()
-def choice(message):
+def doKimetaro(message):
     random.seed()
     reply = random.choice(LIST.get(message.channel.id))
     emoji = random.choice(
