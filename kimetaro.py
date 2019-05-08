@@ -146,11 +146,16 @@ def add(message):
 @pysnooper.snoop()
 def doKimetaro(message):
     random.seed()
-    reply = random.choice(LIST.get(message.channel.id))
-    emoji = random.choice(
-        kimetaro.parser.getParameter("KIMETARO_EMOJI1")[0])[1:-1]
-    reply = '{} '.format(emoji) + reply + ' {}'.format(emoji)
-    return reply
+
+    # True: List is empty
+    if len(LIST) == 0:
+        return random.choice(kimetaro.parser.getParameter("KIMETARO_ERROR1")[0])[1:-1]
+    else:
+        reply = random.choice(LIST.get(message.channel.id))
+        emoji = random.choice(
+            kimetaro.parser.getParameter("KIMETARO_EMOJI1")[0])[1:-1]
+        reply = '{} '.format(emoji) + reply + ' {}'.format(emoji)
+        return reply
 
 
 @pysnooper.snoop()
@@ -159,7 +164,7 @@ def formatList(message):
     formatted_reply_list = []
     for i, v in enumerate(reply_list):
         formatted_reply_list.append(
-            '[{index:>2}] {value}'.format(index=i + 1, value=v))
+            '[{index:2}]. {value}'.format(index=i + 1, value=v))
     return formatted_reply_list
 
 
