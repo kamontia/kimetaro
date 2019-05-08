@@ -146,7 +146,9 @@ def add(message):
 @pysnooper.snoop()
 def choice(message):
     reply = random.choice(LIST.get(message.channel.id))
-    reply = ':confetti_ball: ' + reply + ' :confetti_ball: '
+    emoji = random.choice(
+        kimetaro.parser.getParameter("KIMETARO_EMOJI1")[0])[1:-1]
+    reply = '{} '.format(emoji) + reply + ' {}'.format(emoji)
     return reply
 
 

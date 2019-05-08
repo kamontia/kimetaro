@@ -25,6 +25,8 @@ class MessageParser(object):
             'kimetaro', 'message1').split('\n')])
         self.setParameter("KIMETARO_MESSAGE2", [e for e in config.get(
             'kimetaro', 'message2').split('\n')])
+        self.setParameter("KIMETARO_EMOJI1", [e for e in config.get(
+            'kimetaro', 'emoji1').split('\n')])
         self.setParameter("ADD_ERROR1", [e for e in config.get(
             'add', 'error_message1').split('\n')])
         self.setParameter("LIST_MESSAGE1", [
