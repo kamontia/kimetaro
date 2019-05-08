@@ -146,10 +146,13 @@ def choice(message):
 
 
 @pysnooper.snoop()
-def showList(message):
-    print(message.channel.id)
-    reply = LIST.get(message.channel.id)
-    return reply
+def formatList(message):
+    reply_list = LIST.get(message.channel.id)
+    formatted_reply_list = []
+    for i, v in enumerate(reply_list):
+        formatted_reply_list.append(
+            '[{index:>2}] {value}'.format(index=i + 1, value=v))
+    return formatted_reply_list
 
 
 @pysnooper.snoop()
