@@ -149,7 +149,8 @@ def doKimetaro(message):
 
     # True: List is empty
     if len(LIST) == 0:
-        return random.choice(kimetaro.parser.getParameter("KIMETARO_ERROR1")[0])[1:-1]
+        return random.choice(kimetaro.parser.getParameter(
+            "KIMETARO_ERROR1")[0])[1:-1]
     else:
         reply = random.choice(LIST.get(message.channel.id))
         emoji = random.choice(
