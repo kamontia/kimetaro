@@ -10,7 +10,7 @@ jobs:
           command: pip install pycodestyle
       - run:
           name: Check by pycodestyle
-          command: pycodestyle *.py
+          command: pycodestyle $(find . -name "*.py")
   review:
     docker:
       - image: buildpack-deps:trusty
