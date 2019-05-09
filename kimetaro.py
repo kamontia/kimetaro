@@ -3,6 +3,7 @@ import os
 import random
 import re
 from collections import defaultdict
+import asyncio
 
 import discord
 import pysnooper
@@ -17,6 +18,7 @@ class Kimetaro(object):
 
 # Global definition(Workaround)
 kimetaro = Kimetaro()
+loop = asyncio.get_event_loop()
 
 # Value initialization
 COMMAND_SUFFIX = ''
@@ -88,10 +90,13 @@ async def on_message(message):
                 kimetaro.parser.getParameter("LIST_ERROR1")[0])[1:-1])
 
         else:
+
             await send_reply(message, random.choice(
                 kimetaro.parser.getParameter("LIST_MESSAGE1")[0])[1:-1])
-            await send_reply(message, showList(message))
-            await send_reply(message, r'`/kimetaro` でワイが1つ決めたるで')
+            message_list = formatList(message)
+            for i in message_list:
+                sync_send_reply(message, i)
+            sync_send_reply(message, r'`/kimetaro` でワイが1つ決めたるで')
 
     if message.content.startswith('/remove' + COMMAND_SUFFIX):
         remove(message)
@@ -146,10 +151,13 @@ def choice(message):
 
 
 @pysnooper.snoop()
-def showList(message):
-    print(message.channel.id)
-    reply = LIST.get(message.channel.id)
-    return reply
+def formatList(message):
+    reply_list = LIST.get(message.channel.id)
+    formatted_reply_list = []
+    for i, v in enumerate(reply_list):
+        formatted_reply_list.append(
+            '[{index:>2}] {value}'.format(index=i + 1, value=v))
+    return formatted_reply_list
 
 
 @pysnooper.snoop()
@@ -160,6 +168,11 @@ def remove(message):
 @pysnooper.snoop()
 async def send_reply(message, reply):
     await message.channel.send(reply)
+
+
+@pysnooper.snoop()
+def sync_send_reply(message, reply):
+    asyncio.run_coroutine_threadsafe(send_reply(message, reply), loop)
 
 
 @pysnooper.snoop()
