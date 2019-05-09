@@ -73,16 +73,7 @@ async def on_message(message):
         await send_reply(message, doKimetaro(message))
 
     if message.content.startswith('/add'):
-        if len(LIST[message.channel.id]) >= MAX_ITEMS:
-            reply = random.choice(
-                kimetaro.parser.getParameter("ADD_ERROR1")[0])[1:-1] \
-                .format(MAX_ITEMS)
-            await send_reply(message, reply)
-        else:
-            add_item = add(message)
-            for v in add_item:
-                if len(v) != 0:
-                    await send_reply(message, v + ' を追加したで')
+        add_item = add(message)
 
     if message.content.startswith('/list' + COMMAND_SUFFIX):
         if len(LIST[message.channel.id]) == 0:
@@ -128,8 +119,15 @@ def add(message):
         Expected pattern:`/add string1 string2`
         '''
         for v in item:
-            LIST[message.channel.id].append(v)
-            added_list.append(v)
+            if canAppend(message):
+                LIST[message.channel.id].append(v)
+                added_list.append(v)
+                sync_send_reply(message, v + ' を追加したで')
+            else:
+                sync_send_reply(message, random.choice(
+                    kimetaro.parser.getParameter("ADD_ERROR1")[0])[1:-1]
+                    .format(MAX_ITEMS))
+                break
     else:
         '''
         Expected pattern:`/add "string1" "string2"`
@@ -137,8 +135,16 @@ def add(message):
         for v in item_list:
             # Not to add into list if the length of words is zero
             if len(v) != 0 and re.match(r'^\s*$', v) is None:
-                LIST[message.channel.id].append(v)
-                added_list.append(v)
+                if canAppend(message):
+                    LIST[message.channel.id].append(v)
+                    added_list.append(v)
+                    sync_send_reply(message, v + ' を追加したで')
+
+                else:
+                    sync_send_reply(message, random.choice(
+                        kimetaro.parser.getParameter("ADD_ERROR1")[0])[1:-1]
+                        .format(MAX_ITEMS))
+                    break
 
     return added_list
 
@@ -182,6 +188,14 @@ async def send_reply(message, reply):
 @pysnooper.snoop()
 def sync_send_reply(message, reply):
     asyncio.run_coroutine_threadsafe(send_reply(message, reply), loop)
+
+
+@pysnooper.snoop()
+def canAppend(message):
+    if len(LIST[message.channel.id]) < MAX_ITEMS:
+        return True
+    else:
+        return False
 
 
 @pysnooper.snoop()
