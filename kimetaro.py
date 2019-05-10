@@ -148,7 +148,7 @@ def doKimetaro(message):
     random.seed()
 
     # True: List is empty
-    if len(LIST) == 0:
+    if len(LIST[message.channel.id]) == 0:
         return random.choice(kimetaro.parser.getParameter(
             "KIMETARO_ERROR1")[0])[1:-1]
     else:
