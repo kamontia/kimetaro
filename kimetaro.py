@@ -119,15 +119,7 @@ def add(message):
         Expected pattern:`/add string1 string2`
         '''
         for v in item:
-            if canAppend(message):
-                LIST[message.channel.id].append(v)
-                added_list.append(v)
-                sync_send_reply(message, v + ' を追加したで')
-            else:
-                sync_send_reply(message, random.choice(
-                    kimetaro.parser.getParameter("ADD_ERROR1")[0])[1:-1]
-                    .format(MAX_ITEMS))
-                break
+            added_list = addItem(message, v)
     else:
         '''
         Expected pattern:`/add "string1" "string2"`
@@ -135,17 +127,23 @@ def add(message):
         for v in item_list:
             # Not to add into list if the length of words is zero
             if len(v) != 0 and re.match(r'^\s*$', v) is None:
-                if canAppend(message):
-                    LIST[message.channel.id].append(v)
-                    added_list.append(v)
-                    sync_send_reply(message, v + ' を追加したで')
+                added_list = addItem(message, v)
+            else:
+                break
+    return added_list
 
-                else:
-                    sync_send_reply(message, random.choice(
-                        kimetaro.parser.getParameter("ADD_ERROR1")[0])[1:-1]
-                        .format(MAX_ITEMS))
-                    break
 
+def addItem(message, item):
+    added_list = []
+    if canAppend(message):
+        LIST[message.channel.id].append(item)
+        added_list.append(item)
+        sync_send_reply(message, item + ' を追加したで')
+
+    else:
+        sync_send_reply(message, random.choice(
+            kimetaro.parser.getParameter("ADD_ERROR1")[0])[1:-1]
+            .format(MAX_ITEMS))
     return added_list
 
 
