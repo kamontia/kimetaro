@@ -19,16 +19,20 @@ class MessageParser(object):
         except FileNotFoundError as e:
             print(e)
 
-        self.setParameter("HEY_MESSAGE1",  [
-                          e for e in config.get('hey', 'message1').split('\n')])
+        self.setParameter("HEY_MESSAGE1",  [e for e in config.get(
+            'hey', 'message1').split('\n')])
         self.setParameter("KIMETARO_MESSAGE1", [e for e in config.get(
             'kimetaro', 'message1').split('\n')])
         self.setParameter("KIMETARO_MESSAGE2", [e for e in config.get(
             'kimetaro', 'message2').split('\n')])
+        self.setParameter("KIMETARO_EMOJI1", [e for e in config.get(
+            'kimetaro', 'emoji1').split('\n')])
+        self.setParameter("KIMETARO_ERROR1", [e for e in config.get(
+            'kimetaro', 'error_message1').split('\n')])
         self.setParameter("ADD_ERROR1", [e for e in config.get(
             'add', 'error_message1').split('\n')])
-        self.setParameter("LIST_MESSAGE1", [
-                          e for e in config.get('list', 'message1').split('\n')])
+        self.setParameter("LIST_MESSAGE1", [e for e in config.get(
+            'list', 'message1').split('\n')])
         self.setParameter("LIST_ERROR1", [e for e in config.get(
             'list', 'error_message1').split('\n')])
         self.setParameter("REMOVE_MESSAGE1", [e for e in config.get(

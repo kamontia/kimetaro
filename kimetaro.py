@@ -70,7 +70,7 @@ async def on_message(message):
             kimetaro.parser.getParameter("KIMETARO_MESSAGE1")[0])[1:-1])
         await send_reply(message, random.choice(
             kimetaro.parser.getParameter("KIMETARO_MESSAGE2")[0])[1:-1])
-        await send_reply(message, choice(message))
+        await send_reply(message, doKimetaro(message))
 
     if message.content.startswith('/add'):
         if len(LIST[message.channel.id]) >= MAX_ITEMS:
@@ -144,10 +144,19 @@ def add(message):
 
 
 @pysnooper.snoop()
-def choice(message):
-    reply = random.choice(LIST.get(message.channel.id))
-    reply = ':confetti_ball: ' + reply + ' :confetti_ball: '
-    return reply
+def doKimetaro(message):
+    random.seed()
+
+    # True: List is empty
+    if len(LIST[message.channel.id]) == 0:
+        return random.choice(kimetaro.parser.getParameter(
+            "KIMETARO_ERROR1")[0])[1:-1]
+    else:
+        reply = random.choice(LIST.get(message.channel.id))
+        emoji = random.choice(
+            kimetaro.parser.getParameter("KIMETARO_EMOJI1")[0])[1:-1]
+        reply = '{} '.format(emoji) + reply + ' {}'.format(emoji)
+        return reply
 
 
 @pysnooper.snoop()
@@ -156,7 +165,7 @@ def formatList(message):
     formatted_reply_list = []
     for i, v in enumerate(reply_list):
         formatted_reply_list.append(
-            '[{index:>2}] {value}'.format(index=i + 1, value=v))
+            '[{index:2}]. {value}'.format(index=i + 1, value=v))
     return formatted_reply_list
 
 
