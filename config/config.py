@@ -1,8 +1,5 @@
 import configparser as ConfigParser
-import sys
-import os
 from collections import defaultdict
-
 import pysnooper
 
 
