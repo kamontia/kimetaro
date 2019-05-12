@@ -73,7 +73,7 @@ async def on_message(message):
         await send_reply(message, doKimetaro(message))
 
     if message.content.startswith('/add'):
-        add_item = add(message)
+        add(message)
 
     if message.content.startswith('/list' + COMMAND_SUFFIX):
         if len(LIST[message.channel.id]) == 0:
@@ -130,7 +130,6 @@ def add(message):
                 added_list = addItem(message, v)
             else:
                 break
-    return added_list
 
 
 def addItem(message, item):
