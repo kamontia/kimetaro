@@ -5,10 +5,12 @@ import pysnooper
 
 class MessageParser(object):
 
+    @pysnooper.snoop()
     def __init__(self):
         self.Messages = defaultdict(list)
         print(type(self.Messages))
 
+    @pysnooper.snoop()
     def parse(self):
         config = ConfigParser.ConfigParser()
         try:
@@ -37,12 +39,15 @@ class MessageParser(object):
         self.setParameter("REMOVE_MESSAGE2", [e for e in config.get(
             'remove', 'message2').split('\n')])
 
+    @pysnooper.snoop()
     def getParameter(self, key):
         return self.Messages[key]
 
+    @pysnooper.snoop()
     def setParameter(self, key, value):
         self.Messages[key].append(value)
 
+    @pysnooper.snoop()
     def display(self):
         print(self.Messages)
 
