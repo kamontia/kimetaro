@@ -110,7 +110,6 @@ def add(message):
 
     # Convert to string type because of using regular expression
     item_toSring = ' '.join(item)
-    added_list = []
     # Pick up matched words
     item_list = re.findall(COMPILED_PATTERN, item_toSring)
 
@@ -119,7 +118,7 @@ def add(message):
         Expected pattern:`/add string1 string2`
         '''
         for v in item:
-            added_list = addItem(message, v)
+            addItem(message, v)
     else:
         '''
         Expected pattern:`/add "string1" "string2"`
@@ -127,23 +126,20 @@ def add(message):
         for v in item_list:
             # Not to add into list if the length of words is zero
             if len(v) != 0 and re.match(r'^\s*$', v) is None:
-                added_list = addItem(message, v)
+                addItem(message, v)
             else:
                 break
 
 
 def addItem(message, item):
-    added_list = []
     if canAppend(message):
         LIST[message.channel.id].append(item)
-        added_list.append(item)
         sync_send_reply(message, item + ' を追加したで')
 
     else:
         sync_send_reply(message, random.choice(
             kimetaro.parser.getParameter("ADD_ERROR1")[0])[1:-1]
             .format(MAX_ITEMS))
-    return added_list
 
 
 @pysnooper.snoop()
