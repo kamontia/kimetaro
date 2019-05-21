@@ -1,6 +1,5 @@
 import configparser as ConfigParser
 from collections import defaultdict
-import pysnooper
 
 
 class MessageParser(object):
