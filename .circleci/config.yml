@@ -7,10 +7,13 @@ jobs:
       - checkout
       - run:
           name: Install dependency
-          command: pip install pycodestyle
+          command: pip install pycodestyle flake8
       - run:
           name: Check by pycodestyle
           command: pycodestyle $(find . -name "*.py")
+      - run:
+          name: Check by flake8
+          command: flake8 $(find . -name "*.py")
   review:
     docker:
       - image: buildpack-deps:trusty
