@@ -4,9 +4,9 @@ import random
 import re
 from collections import defaultdict
 import asyncio
+import logging
 
 import discord
-import pysnooper
 
 from config.config import MessageParser
 
@@ -36,7 +36,7 @@ COMPILED_PATTERN = re.compile(PATTERN)
 client = discord.Client()
 
 # Notification processing when bot stars
-@pysnooper.snoop()
+# @pysnooper.snoop()
 @client.event
 async def on_ready():
     print('Logged in')
@@ -55,9 +55,14 @@ async def on_ready():
 
 
 # Processing when some messages are received
-@pysnooper.snoop()
+# @pysnooper.snoop()
 @client.event
 async def on_message(message):
+
+    # WORKAROUND - FIXME: Pysnooper was rid because its NotImplement
+    # assertion error
+    logging.info(message)
+
     if message.author == client.user:
         return
 
@@ -97,7 +102,7 @@ async def on_message(message):
             kimetaro.parser.getParameter("REMOVE_MESSAGE2")[0])[1:-1])
 
 
-@pysnooper.snoop()
+# @pysnooper.snoop()
 def add(message):
     '''
      This method is expected receiving argument as below:
@@ -147,7 +152,7 @@ def addItem(message, item):
     return added_list
 
 
-@pysnooper.snoop()
+# @pysnooper.snoop()
 def doKimetaro(message):
     random.seed()
 
@@ -163,7 +168,7 @@ def doKimetaro(message):
         return reply
 
 
-@pysnooper.snoop()
+# @pysnooper.snoop()
 def formatList(message):
     reply_list = LIST.get(message.channel.id)
     formatted_reply_list = []
@@ -173,22 +178,22 @@ def formatList(message):
     return formatted_reply_list
 
 
-@pysnooper.snoop()
+# @pysnooper.snoop()
 def remove(message):
     LIST[message.channel.id].clear()
 
 
-@pysnooper.snoop()
+# @pysnooper.snoop()
 async def send_reply(message, reply):
     await message.channel.send(reply)
 
 
-@pysnooper.snoop()
+# @pysnooper.snoop()
 def sync_send_reply(message, reply):
     asyncio.run_coroutine_threadsafe(send_reply(message, reply), loop)
 
 
-@pysnooper.snoop()
+# @pysnooper.snoop()
 def canAppend(message):
     if len(LIST[message.channel.id]) < MAX_ITEMS:
         return True
@@ -196,7 +201,7 @@ def canAppend(message):
         return False
 
 
-@pysnooper.snoop()
+# @pysnooper.snoop()
 def main():
     global ACCESSTOKEN, LIST, MAX_ITEMS
 
