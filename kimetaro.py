@@ -4,6 +4,7 @@ import random
 import re
 from collections import defaultdict
 import asyncio
+import logging
 
 import discord
 
@@ -57,6 +58,11 @@ async def on_ready():
 # @pysnooper.snoop()
 @client.event
 async def on_message(message):
+
+    # WORKAROUND - FIXME: Pysnooper was rid because its NotImplement
+    # assertion error
+    logging.info(message)
+
     if message.author == client.user:
         return
 
